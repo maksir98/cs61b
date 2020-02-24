@@ -24,6 +24,7 @@ public class NBody {
     }
 
     public static void main (String[] args) {
+        int t = 0;
         double T = Double.parseDouble(args[0]);
         double dt = Double.parseDouble(args[1]);
         String filename = args[2];
@@ -41,5 +42,22 @@ public class NBody {
             bodies[i].draw();
         }
         StdDraw.show();
+
+        for (t = 0; t <= T; t += dt) {
+            double[] xForce = new double[bodies.length];
+            double[] yForce = new double[bodies.length];
+            for (int i = 0 ; i < bodies.length; i++) {
+                xForce[i] = bodies[i].calcNetForceExertedByX(bodies);
+                yForce[i] = bodies[i].calcNetForceExertedByY(bodies);
+                bodies[i].update(dt, xForce[i], yForce[i]);
+            }
+            StdDraw.clear();
+            StdDraw.picture(0, 0, backgroundImg);
+            for(int i = 0; i < bodies.length; i++) {
+                bodies[i].draw();
+            }
+            StdDraw.show();
+            StdDraw.pause(10);
+        }
     }
 }
