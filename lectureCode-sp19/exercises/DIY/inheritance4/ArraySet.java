@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-public class ArraySet<T> {
+public class ArraySet<T> implements Iterable<T> {
     private T[] items;
     private int size;
 
@@ -41,13 +41,20 @@ public class ArraySet<T> {
 
     public static void main(String[] args) {
         ArraySet<String> s = new ArraySet<>();
-        s.add(null);
+//        s.add(null);
         s.add("horse");
         s.add("fish");
         s.add("house");
-        s.add("fish");        
-        System.out.println(s.contains("horse"));        
-        System.out.println(s.size());       
+        s.add("fish");
+        for (String i : s) {
+            System.out.println(i);
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        Iterator<T> i = new ArraySetIterator();
+        return i;
     }
 
     /* Also to do:
@@ -55,4 +62,24 @@ public class ArraySet<T> {
     2. Implement a toString method.
     3. Implement an equals() method.
     */
+    public class ArraySetIterator implements Iterator<T> {
+        private int wizPos;
+
+        public ArraySetIterator() {
+            wizPos = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return wizPos < size;
+        }
+
+        @Override
+        public T next() {
+            T returnItem = items[wizPos];
+            wizPos ++;
+            return returnItem;
+        }
+    }
+
 }
