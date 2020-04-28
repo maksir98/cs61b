@@ -46,9 +46,11 @@ public class ArraySet<T> implements Iterable<T> {
         s.add("fish");
         s.add("house");
         s.add("fish");
-        for (String i : s) {
-            System.out.println(i);
-        }
+        ArraySet<String> b = new ArraySet<>();
+        b.add("horse");
+        b.add("house");
+        b.add("fish");
+        System.out.println(b.equals(s));
     }
 
     @Override
@@ -80,6 +82,38 @@ public class ArraySet<T> implements Iterable<T> {
             wizPos ++;
             return returnItem;
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder returnString = new StringBuilder("{");
+        for (int i = 0; i < size - 1; i ++ ){
+            returnString.append(items[i]);
+            returnString.append(",");
+        }
+        returnString.append(items[size - 1]);
+        returnString.append("}");
+        return returnString.toString();
+    }
+
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) { return true; }
+        if (other == null) { return false; }
+        if (other.getClass() != this.getClass()) {
+            return false;
+        }
+        ArraySet<T> o = (ArraySet<T>) other;
+        if (this.size() != o.size()) {
+            return false;
+        }
+        for (T i : this) {
+            if (!o.contains(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
