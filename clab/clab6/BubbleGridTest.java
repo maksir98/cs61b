@@ -16,6 +16,7 @@ public class BubbleGridTest {
 
     private void validate(int[][] grid, int[][] darts, int[] expected) {
         BubbleGrid sol = new BubbleGrid(grid);
-        assertArrayEquals(expected, sol.popBubbles(darts));
+        int[] result = sol.popBubbles(darts);
+        assertArrayEquals(expected, result);
     }
 }
