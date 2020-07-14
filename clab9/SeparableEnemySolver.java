@@ -24,7 +24,32 @@ public class SeparableEnemySolver {
      */
     public boolean isSeparable() {
         // TODO: Fix me
-        return false;
+        Set<String>nodes = g.labels(); //获取所有节点
+        HashMap<String, Integer> state = new HashMap<String, Integer>();
+        HashMap<String, String> edgeTo = new HashMap<String, String>();
+        HashMap<String, Integer> distance = new HashMap<String, Integer>();
+        ArrayList<String> fringe = new ArrayList<String>();
+
+        for(String node: nodes) {
+            int thisState;
+            int nextState;
+            if (!state.containsKey(node)) {
+                state.put(node, 1); //默认分类给party1
+                thisState = 1;
+                nextState = 2;
+            } else {
+                thisState = state.get(node);
+                if (thisState == 1) nextState = 2;
+                else                nextState = 1;
+            }
+
+            for (String neighbor: g.neighbors(node)) {
+                if (!state.containsKey(neighbor))   state.put(neighbor, nextState);
+                if (state.get(neighbor) == thisState)  return false;
+            }
+        }
+
+        return true;
     }
 
 
