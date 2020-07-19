@@ -40,10 +40,16 @@ public class MergeSort {
      * @return         A Queue of queues, each containing an item from items.
      *
      */
-    private static <Item extends Comparable> Queue<Queue<Item>>
-            makeSingleItemQueues(Queue<Item> items) {
+    private static <Item extends Comparable> Queue<Queue<Item>> makeSingleItemQueues(Queue<Item> items) {
         // Your code here!
-        return null;
+        Queue<Queue<Item>> result = new Queue<>();
+        int itemSize = items.size();
+        for (int i = 0; i < itemSize; i ++) {
+            Queue<Item> q = new Queue<>();
+            q.enqueue(items.dequeue());
+            result.enqueue(q);
+        }
+        return result;
     }
 
     /**
@@ -62,7 +68,12 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
-        return null;
+        Queue<Item> result = new Queue<>();
+        int num = q1.size() + q2.size();
+        for (int i = 0; i < num; i++) {
+            result.enqueue(getMin(q1, q2));
+        }
+        return result;
     }
 
     /**
@@ -78,6 +89,21 @@ public class MergeSort {
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         // Your code here!
-        return items;
+        int size = items.size();
+        Queue<Queue<Item>> tem = makeSingleItemQueues(items);
+        while (tem.size() != 1) {
+            Queue<Queue<Item>> temInside = new Queue<>();
+            for (int i = 0; i < tem.size(); i += 2) {
+                if (i == tem.size() - 1) {
+                    temInside.enqueue(tem.dequeue());
+                } else {
+                    Queue<Item> q1 = tem.dequeue();
+                    Queue<Item> q2 = tem.dequeue();
+                    temInside.enqueue(mergeSortedQueues(q1, q2));
+                }
+            }
+            tem = temInside;
+        }
+        return tem.dequeue();
     }
 }
